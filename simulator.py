@@ -73,13 +73,29 @@ class CPU:
                 print(f'Running: {instruction}')
 
 
-cpu = CPU()
-program = [("LOAD", 'R0', 5),
+cpu1 = CPU()
+
+program1 = [("LOAD", 'R0', 5),
            ("LOAD", 'R1', 3),
            ("ADD", "R0", "R1"),
            ('STORE', 'R0', 50),
            ("HALT",)]
-cpu.run(program)
+cpu1.run(program1)
 
-print(cpu.register.read('R0'))
-print(cpu.memory.read(50))
+print(cpu1.register.read('R0'))
+print(cpu1.memory.read(50))
+
+cpu2 = CPU()
+program2 = [("LOAD", 'R2', 10),
+            ("LOAD", 'R3', 20),
+            ("ADD", 'R2', 'R3'),
+            ('STORE', 'R2',60),
+            ("SUB",'R2','R3'),
+            ("STORE", 'R2', 10),
+            ("HALT",)]
+
+cpu2.run(program2) # R2 starts as 10, R3 as 20
+                       # After ADD → R2 = 30
+                      #  After SUB → R2 = 30 - 20 = 10
+print(cpu2.memory.read(60))   # result of ADD
+print(cpu2.memory.read(10))   # result of SUB 

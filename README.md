@@ -6,7 +6,7 @@ Built from scratch as a learning project to understand computer architecture fro
 
 ---
 
-## What It Simulates
+ What It Simulates
 
 | Component | What it does |
 |---|---|
@@ -17,7 +17,7 @@ Built from scratch as a learning project to understand computer architecture fro
 
 ---
 
-## Instruction Set
+ Instruction Set
 
 | Instruction | Syntax | Description |
 |---|---|---|
@@ -29,7 +29,7 @@ Built from scratch as a learning project to understand computer architecture fro
 
 ---
 
-## Example Program
+ Example Program
 
 ```python
 program = [
@@ -49,7 +49,7 @@ print(cpu.memory.read(50))      # 8
 
 ---
 
-## How to Run
+ How to Run
 
 No dependencies. Just Python 3.
 

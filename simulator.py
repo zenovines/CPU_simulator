@@ -1,3 +1,4 @@
+
 class Memory:
     def __init__(self, size):
         self.data = [0] * size 
@@ -40,7 +41,7 @@ class CPU:
         self.running = False
 
     def execute(self, instruction):
-        op = instruction[0] # first element is alywas instruction
+        op = instruction[0] # first element is always instruction
 
         if op == 'LOAD':
             reg, value = instruction[1], instruction[2]
@@ -67,11 +68,40 @@ class CPU:
             self.pc = 0
 
             while self.running:
-                instruction = program[self.pc]
-                self.execute(instruction)
-                self.pc += 1
+                instruction = program[self.pc] # FETCH
+                self.execute(instruction) # EXECUTE
+                self.pc += 1 # ADVANCE
                 print(f'Running: {instruction}')
 
+def assembler(assembly_code):
+    program = []
+    with open('assembly_code', 'r') as f:
+        for line in f:
+            parts = line.strip().split()
+
+            if not parts:
+                continue
+
+        op = parts[0]
+
+        if op == 'LOAD':
+            reg = parts[1].rstrip(',')
+            value = int(parts[2])
+            program.append(('LOAD', reg, value))
+
+        elif op == 'ADD' or op == 'SUB':
+            reg1 = parts[1].rstrip(',')
+            reg2 = parts[2].rstrip(',')
+            program.append((op, reg1, reg2))
+
+        elif op == 'STORE':
+            reg = parts[1].rstrip(',')
+            address = int(parts[2])
+            program.append(('STORE', reg, address))
+
+        elif op == 'HALT':
+            program.append(('HALT',))
+    return program
 
 cpu1 = CPU()
 

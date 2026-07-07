@@ -73,35 +73,35 @@ class CPU:
                 self.pc += 1 # ADVANCE
                 print(f'Running: {instruction}')
 
-def assembler(assembly_code):
+def assembler(filename):
     program = []
-    with open('assembly_code', 'r') as f:
+    with open(filename, 'r') as f:
         for line in f:
             parts = line.strip().split()
 
             if not parts:
                 continue
 
-        op = parts[0]
+            op = parts[0]
 
-        if op == 'LOAD':
-            reg = parts[1].rstrip(',')
-            value = int(parts[2])
-            program.append(('LOAD', reg, value))
+            if op == 'LOAD':
+                reg = parts[1].rstrip(',')
+                value = int(parts[2])
+                program.append(('LOAD', reg, value))
 
-        elif op == 'ADD' or op == 'SUB':
-            reg1 = parts[1].rstrip(',')
-            reg2 = parts[2].rstrip(',')
-            program.append((op, reg1, reg2))
+            elif op == 'ADD' or op == 'SUB':
+                reg1 = parts[1].rstrip(',')
+                reg2 = parts[2].rstrip(',')
+                program.append((op, reg1, reg2))
 
-        elif op == 'STORE':
-            reg = parts[1].rstrip(',')
-            address = int(parts[2])
-            program.append(('STORE', reg, address))
+            elif op == 'STORE':
+                reg = parts[1].rstrip(',')
+                address = int(parts[2])
+                program.append(('STORE', reg, address))
 
-        elif op == 'HALT':
-            program.append(('HALT',))
-    return program
+            elif op == 'HALT':
+                program.append(('HALT',))
+        return program
 
 cpu1 = CPU()
 
@@ -129,3 +129,16 @@ cpu2.run(program2) # R2 starts as 10, R3 as 20
                       #  After SUB → R2 = 30 - 20 = 10
 print(cpu2.memory.read(60))   # result of ADD
 print(cpu2.memory.read(10))   # result of SUB 
+
+cpu3 = CPU()
+program3 = assembler('assembly_code.asm')
+cpu3.run(program3)
+print(cpu3.register.read('R0'))
+print(cpu3.memory.read(50))
+
+cpu4 = CPU()
+program4 = assembler('assembly_code2.asm')
+print(program4)
+cpu4.run(program4) 
+print(cpu4.register.read('R0'))
+print(cpu4.memory.read(10))

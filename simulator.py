@@ -62,6 +62,13 @@ class CPU:
             self.memory.write(address, value)
         elif op == 'HALT':
             self.running = False
+        elif op == 'JUMP':
+            address = instruction[1]
+            self.pc = address - 1 # subtract 1 because pc will be incremented after this
+        elif op == 'JUMP_IF_ZERO':
+            reg, address = instruction[1], instruction[2]
+            if self.register.read(reg) == 0:
+                self.pc = address - 1  # subtract 1 because pc will be incremented after this
         
     def run(self,program):
             self.running = True
@@ -142,3 +149,23 @@ print(program4)
 cpu4.run(program4) 
 print(cpu4.register.read('R0'))
 print(cpu4.memory.read(10))
+
+'''cpu5 = CPU()
+program5 = [("LOAD", 'R0', 5),
+           ("LOAD", 'R1', 3),
+           ("ADD", "R0", "R1"),
+           ("JUMP", 2),
+           ("HALT",)]
+cpu5.run(program5)'''
+
+cpu6 = CPU()
+program6 = [
+    ("LOAD", "R0", 3),          # index 0
+    ("LOAD", "R1", 1),          # index 1
+    ("SUB", "R0", "R1"),        # index 2 - count down
+    ("JUMP_IF_ZERO", "R0", 5),  # index 3 - if R0 is 0 jump to HALT
+    ("JUMP", 2),                # index 4 - loop back to SUB
+    ("HALT",),                  # index 5
+]
+cpu6.run(program6)
+print(cpu6.register.read("R0"))
